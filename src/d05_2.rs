@@ -1,6 +1,5 @@
 use std::fs::File;
-use std::env;
-use std::io::{BufReader, BufRead, Error};
+use std::io::{BufReader, BufRead};
 
 // We know that the crate columns are structured in fixed
 // sized blocks, and the position of crate value in that block is fixed
@@ -29,21 +28,14 @@ fn handle_move(row: &str, crate_vec: &mut Vec<Vec<char>>) {
     let crate_count: i32 = str_vec[1].parse().unwrap();
     let from: usize = str_vec[3].parse::<usize>().unwrap() - 1;
     let to: usize = str_vec[5].parse::<usize>().unwrap() - 1;
+    let from_take: usize = crate_vec[from].len() - crate_count as usize;
     
-    for _n in 0..crate_count {
-        match crate_vec[from].pop() {
-            Some(c) => {
-                crate_vec[to].push(c);
-            },
-            None => break // pile is empty, no more crates to move
-        }
-    }
+    let mut crates_taken: Vec<char> = crate_vec[from].drain(from_take..).collect();
+    crate_vec[to].append(&mut crates_taken);
 }
 
-fn main() -> Result<(), Error> {
-    let args: Vec<String> = env::args().collect();
-    let file_path = &args[1];
-    let file = File::open(file_path)?;
+pub fn run() {
+    let file = File::open("inputs/d05").expect("Failed to open file");
     let buff = BufReader::new(file);
     let mut lines_iter = buff.lines();
 
@@ -57,7 +49,7 @@ fn main() -> Result<(), Error> {
 
     // Assume that input file starts with the "crate diagram"
     for line in lines_iter {
-        let row = line?;
+        let row = line.expect("Failed to read line");
 
         if !row.is_empty() {
             // If row does not start with 'move', the line is used for building
@@ -80,6 +72,4 @@ fn main() -> Result<(), Error> {
     }
 
     println!("Result: {}", &result);
-
-    Ok(())
 }

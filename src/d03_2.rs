@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{BufRead, BufReader, Error};
+use std::io::{BufRead, BufReader};
 
 fn char_value(c: char) -> i32 {
     let c_int: i32 = c as i32;
@@ -12,8 +12,8 @@ fn char_value(c: char) -> i32 {
     return result;
 }
 
-fn main() -> Result<(), Error> {
-    let file = File::open("./input")?;
+pub fn run() {
+    let file = File::open("inputs/d03").expect("Failed to open file");
     let buff = BufReader::new(file);
     let mut score = 0;
 
@@ -42,6 +42,4 @@ fn main() -> Result<(), Error> {
     }
 
     println!("Final score: {}", score);
-    
-    Ok(())
 }

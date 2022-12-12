@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{BufRead, BufReader, Error};
+use std::io::{BufRead, BufReader};
 
 
 fn parse_bounds(bounds: &str) -> (i32, i32) {
@@ -16,25 +16,19 @@ fn parse_bounds(bounds: &str) -> (i32, i32) {
 }
 
 
-fn main() -> Result<(), Error> {
-    let file = File::open("./input")?;
+pub fn run() {
+    let file = File::open("inputs/d04").expect("Failed to open file");
     let buff = BufReader::new(file);
     let mut score = 0;
 
     for line in buff.lines() {
-        let row = line?;
+        let row = line.expect("Failed to read line");
         match row.split_once(',') {
             Some((elf1, elf2)) => {
                 let (l_elf1, u_elf1) = parse_bounds(&elf1);
                 let (l_elf2, u_elf2) = parse_bounds(&elf2);
 
-                // If lower or upper bounds match, we know that one
-                // of the assigments is fully contained in the other
-                if l_elf1 == l_elf2 || u_elf1 == u_elf2 {
-                    score += 1;
-                } else if l_elf1 < l_elf2 && u_elf1 > u_elf2 {
-                    score += 1;
-                } else if l_elf1 > l_elf2 && u_elf1 < u_elf2 {
+                if l_elf1 <= u_elf2 && u_elf1 >= l_elf2 {
                     score += 1;
                 }
             },
@@ -45,5 +39,4 @@ fn main() -> Result<(), Error> {
     }
 
     println!("Final score: {}", score);
-    Ok(())
 }

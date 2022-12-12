@@ -1,5 +1,4 @@
 use std::fs;
-use std::env;
 use std::collections::HashSet;
 
 fn no_dup(vec: &Vec<char>) -> bool {
@@ -10,11 +9,9 @@ fn no_dup(vec: &Vec<char>) -> bool {
 
 // First argument is the input file and the second is the width of the start-of-packet
 // marker
-fn main() {
-    let args: Vec<String> = env::args().collect();
-    let file_path = &args[1];
-    let unique_chars: usize = args[2].parse().expect("Invalid unique_chars argument"); 
-    let datastream = fs::read_to_string(file_path).expect("Unable to read file");
+pub fn run() {
+    let unique_chars: usize = 4; 
+    let datastream = fs::read_to_string("inputs/d06").expect("Unable to read file");
 
     let mut char_vec = Vec::new();
     let mut found_flag = false;

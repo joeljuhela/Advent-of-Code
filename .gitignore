@@ -1,10 +1,9 @@
-.vscode/
-.DS_Store
-debug/
-target/
-Cargo.lock
-**/*.rs.bk
-*.pdb
 *
 !*.*
 !*/
+
+Cargo.lock
+Cargo.toml
+target/
+.vscode/
+.DS_Store

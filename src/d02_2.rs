@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{BufRead, BufReader, Error};
+use std::io::{BufRead, BufReader};
 
 #[derive(PartialEq)]
 enum RPSChoice {
@@ -88,18 +88,17 @@ fn calc_match(me: &str, opp: &str) -> i32 {
     return result;
 }
 
-fn main() -> Result<(), Error> {
+pub fn run() {
     let mut score = 0;
 
-    let file = File::open("./input")?;
+    let file = File::open("inputs/d02").expect("Failed to open file");
     let buff = BufReader::new(file);
 
     for line in buff.lines() {
-        let row = line?;
+        let row = line.expect("Failed to read line");
         let values: Vec<&str> = row.split(" ").collect();
         score += calc_match(values[1], values[0]);
     }
 
     println!("final score: {}", score);
-    Ok(())
 }

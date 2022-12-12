@@ -1,8 +1,8 @@
 use std::fs::File;
-use std::io::{BufReader, BufRead, Error};
+use std::io::{BufReader, BufRead};
 
-fn main() -> Result<(), Error> {
-    let file = File::open("./input")?;
+pub fn run() {
+    let file = File::open("inputs/d01").expect("Failed to open file");
     let reader = BufReader::new(file);
     
 
@@ -10,7 +10,7 @@ fn main() -> Result<(), Error> {
     let mut cur_cals: i32 = 0;
     
     for line in reader.lines() {
-        let row = line?;
+        let row = line.expect("Failed to read line");
 
         if row.is_empty() {
             let mut rep = cur_cals;
@@ -31,6 +31,4 @@ fn main() -> Result<(), Error> {
     }
 
     println!("Total calories of the top3 are: {}", top3.iter().sum::<i32>());
-
-    Ok(())
 }

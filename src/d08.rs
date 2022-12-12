@@ -1,11 +1,8 @@
-use std::env;
 use std::fs::File;
 use std::io::{BufReader, BufRead};
 
-fn main() {
-    let args: Vec<String> = env::args().collect();
-    let file_path = &args[1];
-    let file = File::open(file_path).expect("Failed to open file");
+pub fn run() {
+    let file = File::open("inputs/d08").expect("Failed to open file");
     let buff = BufReader::new(file);
     
     let mut matrix: Vec<Vec<u32>> = Vec::new();

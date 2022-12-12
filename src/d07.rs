@@ -1,5 +1,4 @@
 use std::fs::File;
-use std::env;
 use std::collections::HashMap;
 use std::io::{BufReader, BufRead};
 use std::path::PathBuf;
@@ -8,10 +7,8 @@ use std::iter::FromIterator;
 const TOTAL_DISKSPACE: u32 = 70000000;
 const UPDATE_SIZE: u32 = 30000000;
 
-fn main() {
-    let args: Vec<String> = env::args().collect();
-    let file_path = &args[1];
-    let file = File::open(file_path).expect("Failed to open file");
+pub fn run() {
+    let file = File::open("inputs/d07").expect("Failed to open file");
     let buff = BufReader::new(file);
 
     let mut dir_file_content = HashMap::new();
